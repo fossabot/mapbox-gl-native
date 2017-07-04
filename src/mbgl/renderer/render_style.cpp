@@ -309,15 +309,12 @@ RenderData RenderStyle::getRenderData(MapDebugOptions debugOptions, float angle)
             continue;
         }
 
-        auto& renderTiles = source->getRenderTiles();
         const bool symbolLayer = layer->is<RenderSymbolLayer>();
 
         // Sort symbol tiles in opposite y position, so tiles with overlapping
         // symbols are drawn on top of each other, with lower symbols being
         // drawn on top of higher symbols.
-        std::vector<std::reference_wrapper<RenderTile>> sortedTiles;
-        std::transform(renderTiles.begin(), renderTiles.end(), std::back_inserter(sortedTiles),
-                [](auto& pair) { return std::ref(pair.second); });
+        auto sortedTiles = source->getRenderTiles();
         if (symbolLayer) {
             std::sort(sortedTiles.begin(), sortedTiles.end(),
                       [angle](const RenderTile& a, const RenderTile& b) {
