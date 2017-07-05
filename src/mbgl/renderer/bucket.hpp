@@ -46,7 +46,7 @@ public:
     };
 
     bool needsUpload() const {
-        return !uploaded;
+        return hasData() && !uploaded;
     }
 
 protected:
