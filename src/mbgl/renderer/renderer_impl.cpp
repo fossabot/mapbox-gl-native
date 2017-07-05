@@ -5,7 +5,6 @@
 #include <mbgl/renderer/painter.hpp>
 #include <mbgl/renderer/update_parameters.hpp>
 #include <mbgl/map/transform_state.hpp>
-// TODO move to renderer?
 #include <mbgl/map/backend_scope.hpp>
 
 namespace mbgl {
@@ -107,11 +106,10 @@ void Renderer::Impl::render(View& view, const UpdateParameters& updateParameters
         backend.updateAssumedState();
 
         painter->render(*renderStyle, frameData, view);
+        painter->cleanup();
 
-        // TODO, match the order of this to continuous rendering?
         observer->onDidFinishRenderingFrame(RendererObserver::RenderMode::Full, false);
         observer->onDidFinishRenderingMap();
-        painter->cleanup();
     }
 }
 
