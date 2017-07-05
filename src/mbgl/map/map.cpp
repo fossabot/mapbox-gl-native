@@ -6,13 +6,8 @@
 #include <mbgl/style/style_impl.hpp>
 #include <mbgl/style/observer.hpp>
 #include <mbgl/renderer/update_parameters.hpp>
-#include <mbgl/renderer/painter.hpp>
-#include <mbgl/renderer/render_source.hpp>
-#include <mbgl/renderer/renderer.hpp>
 #include <mbgl/renderer/renderer_frontend.hpp>
 #include <mbgl/renderer/renderer_observer.hpp>
-//TODO: extract parameters in separate headers and get rid of this include
-#include <mbgl/renderer/renderer_impl.hpp>
 #include <mbgl/storage/file_source.hpp>
 #include <mbgl/storage/resource.hpp>
 #include <mbgl/storage/response.hpp>
@@ -725,8 +720,6 @@ void Map::Impl::onUpdate(Update flags) {
 
     transform.updateTransitions(timePoint);
 
-    // TODO: move this somewhere else if we don't
-    // coalesce here?
     if (flags & Update::AnnotationData) {
         annotationManager.updateData();
     }
