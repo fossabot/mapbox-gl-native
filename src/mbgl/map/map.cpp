@@ -86,6 +86,7 @@ public:
 
     bool cameraMutated = false;
     bool loading = false;
+    bool rendererFullyLoaded;
     std::unique_ptr<StillImageRequest> stillImageRequest;
 };
 
@@ -188,9 +189,11 @@ void Map::Impl::onWillStartRenderingFrame() {
     }
 }
 
-void Map::Impl::onDidFinishRenderingFrame(RenderMode mode_, bool needsRepaint) {
+void Map::Impl::onDidFinishRenderingFrame(RenderMode renderMode, bool needsRepaint) {
+    rendererFullyLoaded = renderMode == RenderMode::Full;
+
     if (mode == MapMode::Continuous) {
-        observer.onDidFinishRenderingFrame(MapObserver::RenderMode(mode_));
+        observer.onDidFinishRenderingFrame(MapObserver::RenderMode(renderMode));
 
         if (needsRepaint || transform.inTransition()) {
             onUpdate(Update::Repaint);
@@ -706,7 +709,7 @@ MapDebugOptions Map::getDebug() const {
 }
 
 bool Map::isFullyLoaded() const {
-    return impl->style->impl->isLoaded(); //TODO && impl->renderStyle && impl->renderStyle->isLoaded();
+    return impl->style->impl->isLoaded() && impl->rendererFullyLoaded;
 }
 
 void Map::Impl::onSourceChanged(style::Source& source) {
@@ -754,6 +757,7 @@ void Map::Impl::onUpdate(Update flags) {
 
 void Map::Impl::onStyleLoading() {
     loading = true;
+    rendererFullyLoaded = false;
     observer.onWillStartLoadingMap();
 }
 
