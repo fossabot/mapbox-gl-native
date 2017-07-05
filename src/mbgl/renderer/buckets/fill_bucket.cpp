@@ -39,9 +39,8 @@ FillBucket::FillBucket(const BucketParameters& parameters, const std::vector<con
     }
 }
 
-void FillBucket::addFeature(const GeometryTileFeature& feature,
-                            const GeometryCollection& geometry) {
-    for (auto& polygon : classifyRings(geometry)) {
+void FillBucket::addFeature(const GeometryTileFeature& feature) {
+    for (auto& polygon : classifyRings(feature.getGeometries())) {
         // Optimize polygons with many interior rings for earcut tesselation.
         limitHoles(polygon, 500);
 

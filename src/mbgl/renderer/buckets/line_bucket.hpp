@@ -21,8 +21,7 @@ public:
                const std::vector<const RenderLayer*>&,
                const style::LineLayoutProperties::Unevaluated&);
 
-    void addFeature(const GeometryTileFeature&,
-                    const GeometryCollection&) override;
+    void addFeature(const GeometryTileFeature&) override;
     bool hasData() const override;
 
     void upload(gl::Context&) override;

@@ -323,9 +323,8 @@ void GeometryTileWorker::redoLayout() {
                 if (!filter(feature->getType(), feature->getID(), [&] (const auto& key) { return feature->getValue(key); }))
                     continue;
 
-                GeometryCollection geometries = feature->getGeometries();
-                bucket->addFeature(*feature, geometries);
-                featureIndex->insert(geometries, i, sourceLayerID, leader.getID());
+                bucket->addFeature(*feature);
+                featureIndex->insert(feature->getGeometries(), i, sourceLayerID, leader.getID());
             }
 
             if (!bucket->hasData()) {

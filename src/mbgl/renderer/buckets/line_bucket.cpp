@@ -27,9 +27,8 @@ LineBucket::LineBucket(const BucketParameters& parameters,
     }
 }
 
-void LineBucket::addFeature(const GeometryTileFeature& feature,
-                            const GeometryCollection& geometryCollection) {
-    for (auto& line : geometryCollection) {
+void LineBucket::addFeature(const GeometryTileFeature& feature) {
+    for (auto& line : feature.getGeometries()) {
         addGeometry(line, feature.getType());
     }
 

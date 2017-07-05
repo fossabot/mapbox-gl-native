@@ -45,11 +45,10 @@ bool CircleBucket::hasData() const {
     return !segments.empty();
 }
 
-void CircleBucket::addFeature(const GeometryTileFeature& feature,
-                              const GeometryCollection& geometry) {
+void CircleBucket::addFeature(const GeometryTileFeature& feature) {
     constexpr const uint16_t vertexLength = 4;
 
-    for (auto& circle : geometry) {
+    for (auto& circle : feature.getGeometries()) {
         for(auto& point : circle) {
             auto x = point.x;
             auto y = point.y;
